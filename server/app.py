@@ -19,7 +19,14 @@ def home():
 
 @app.route('/animal/<int:id>')
 def animal_by_id(id):
-    return ''
+    try:
+        animal = Animal.query.get(id)
+        if animal is None:
+            return make_response('Animal not found', 404)
+        return animal.serialize()  
+
+    except Exception as e:
+        return make_response(str(e), 500)
 
 @app.route('/zookeeper/<int:id>')
 def zookeeper_by_id(id):
